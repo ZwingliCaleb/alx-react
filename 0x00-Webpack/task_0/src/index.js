@@ -1,18 +1,5 @@
 import $ from 'jquery';
 
-function addParagraphs() {
-    const body = $('body');
-    
-    const paragraphs = [
-        'Holberton Dashboard',
-        'Dashboard data for the students',
-        'Copyright - Holberton School'
-    ];
-
-    paragraphs.forEach(paragraphText => {
-        const paragraph = `<p>${paragraphText}</p>`;
-        body.append(paragraph);
-});
-}
-
-$(document).ready(addParagraphs);
+$('body').append('<p>Holberton Dashboard</p>');
+$('body').append('<p>Dashboard data for the students</p>');
+$('body').append('<p>Copyright - Holberton School</p>');
