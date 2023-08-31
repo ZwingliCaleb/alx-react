@@ -1,6 +1,6 @@
 module.exports = {
-    moduleNameMapper: {
-      setupFilesAfterEnv: ['./config/setupTests.js'],
-      "\\.(css|jpg|png)$": "jest-transform-stub",
-    },
-  };
+  setupFilesAfterEnv: ['./config/setupTests.js'],
+  moduleNameMapper: {
+    "\\.(css|jpg|png)$": "jest-transform-stub",
+  },
+};

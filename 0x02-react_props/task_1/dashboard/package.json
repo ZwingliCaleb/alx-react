@@ -40,6 +40,7 @@
     "@babel/core": "^7.22.11",
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
+    "@cfaester/enzyme-adapter-react-18": "^0.7.1",
     "babel-jest": "^29.6.4",
     "image-webpack-loader": "^8.1.0",
     "jest": "^27.5.1",
