@@ -1,0 +1,8 @@
+.App-body {
+    height: 50vh;
+    border-bottom: 2px solid rgb(217, 37, 37);
+    padding: 1.5rem 3rem 0;
+}
+label, input {
+    margin-right: 1rem;
+}
