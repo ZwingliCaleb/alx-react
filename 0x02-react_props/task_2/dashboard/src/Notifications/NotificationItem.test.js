@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import NotificationItem from "./NotificationItem";
-import '../../config/setupTests';
+import '../../../../task_0/dashboard/config/setupTests';
 
 describe('<Notificationitem />', () => {
     it('renders without crashing', () => {
