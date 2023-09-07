@@ -1,6 +1,10 @@
 .App-header {
     display: flex;
-    border-bottom: 2px solid rgb(217, 37, 37);
+    border-bottom: 3px solid #e0354b;
+    color: #e0354b;
+    font-size: 1.4rem;
+    align-items: center;
+    padding-top:  200px;
 }
 .App-header h1 {
     color: rgb(217, 37, 37);
