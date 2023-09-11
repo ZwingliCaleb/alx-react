@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
@@ -54,7 +53,7 @@ describe('App tests', () => {
 
   it('verifies that when control + h are pressed the logOut function is called and shows the alert Logging you out', () => {
     const logOutMock = jest.fn();
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const alertMock = jest.spyOn(window, 'alert').mockImplemention(() => {});
 
     const wrapper = mount(<App logOut={logOutMock} />);
     const event = new KeyboardEvent('keydown', {
@@ -63,8 +62,8 @@ describe('App tests', () => {
 
     document.dispatchEvent(event);
 
-    expect(alertMock).toHaveBeenCalledWith();
-    expect(alertMock).toHaveBeenCalledTimes();
+    expect(alertMock).toHaveBeenCalledWith('Logging you out');
+    expect(alertMock).toHaveBeenCalledTimes(1);
 
     alertMock.mockRestore();
     jest.clearAllMocks();
@@ -90,5 +89,5 @@ describe('App tests', () => {
     alertMock.mockRestore();
     jest.clearAllMocks();
   });
-
+  
 });
