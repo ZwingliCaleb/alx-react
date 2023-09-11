@@ -7,8 +7,8 @@ import Header from '../Header/Header';
 import CourseList from '../CourseList/CourseList';
 import PropTypes from 'prop-types';
 import { getLatestNotification } from '../utils/utils';
-import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
-import BodySection from './BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import BodySection from '../BodySection/BodySection';
 
 class App extends Component {
   constructor(props) {
