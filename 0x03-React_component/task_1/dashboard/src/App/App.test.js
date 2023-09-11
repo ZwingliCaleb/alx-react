@@ -49,5 +49,45 @@ describe('App tests', () => {
     const component = shallow(<App isLoggedIn={true}/>);
     expect(component.contains(<Login />)).toBe(false);
     expect(component.contains(<CourseList />)).toBe(true);
-  })
+  });
+
+  it('verifies that when control + h are pressed the logOut function is called and shows the alert Logging you out', () => {
+    const logOutMock = jest.fn();
+    const alertMock = jest.spyOn(window, 'alert').mockImplemention(() => {});
+
+    const wrapper = mount(<App logOut={logOutMock} />);
+    const event = new KeyboardEvent('keydown', {
+        key: 'h', ctrlKey: true,
+    });
+
+    document.dispatchEvent(event);
+
+    expect(alertMock).toHaveBeenCalledWith('Logging you out');
+    expect(alertMock).toHaveBeenCalledTimes(1);
+
+    alertMock.mockRestore();
+    jest.clearAllMocks();
+    wrapper.unmount();
+  });
+
+  it('removing the event listener on mount', () => {
+    const logOutMock = jest.fn();
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const component = mount(<App logOut={logOutMock} />);
+    component.unmount();
+
+    const event = new KeyboardEvent('keydown', {
+      key: 'h',
+      ctrlKey: true,
+    });
+    document.dispatchEvent(event);
+
+    expect(alertMock).not.toHaveBeenCalled('');
+    expect(logOutMock).not.toHaveBeenCalled('');
+
+    alertMock.mockRestore();
+    jest.clearAllMocks();
+  });
+  
 });
