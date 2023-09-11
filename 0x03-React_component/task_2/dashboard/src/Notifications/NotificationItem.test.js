@@ -17,10 +17,24 @@ describe("rendering components", () => {
     expect(wrapper.html()).toEqual('<li data-notification-type="default">test</li>');
   });
 
-  it('renders correct html from  html="<u>test</u>" props', () => {
+  it('renders correct html in html="<u>test</u>" props', () => {
     const wrapper = shallow(<NotificationItem />);
 
     wrapper.setProps({ html: "<u>test</u>" });
     expect(wrapper.html()).toEqual('<li data-urgent="true"><u>test</u></li>');
   });
+});
+
+describe("make sure the onClick event work as expected", () => {
+  it("call console.log", () => {
+    const wrapper = shallow(<NotificationItem />);
+    const spy = jest.fn();
+
+    wrapper.setProps({ value: "test item", markAsRead: spy, id: 1 });
+    wrapper.find("li").props().onClick();
+    expect(spy).toBeCalledTimes(1);
+    expect(spy).toBeCalledwith(1);
+    spy.mockRestore();
+  })
+
 });
