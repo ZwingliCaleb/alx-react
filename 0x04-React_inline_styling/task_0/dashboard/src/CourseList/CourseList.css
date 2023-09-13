@@ -1,0 +1,15 @@
+#CourseList {
+    border: 1px solid black;
+    padding: .2rem;
+    margin: 1rem 2rem;
+    width: 50%;
+}
+
+.contain {
+    height: 45vh;
+    border-bottom: 2px solid rgb(217, 37, 37);
+}
+
+th, td {
+    border: 1px solid gray;
+}

@@ -1,0 +1,12 @@
+.App-header {
+    display: flex;
+    border-bottom: 2px solid rgb(217, 37, 37);
+}
+.App-header h1 {
+    color: rgb(217, 37, 37);
+    align-self: center;
+}
+
+img {
+  width: 20%;
+}
