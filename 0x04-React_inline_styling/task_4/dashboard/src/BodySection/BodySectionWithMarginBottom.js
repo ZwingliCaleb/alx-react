@@ -5,7 +5,7 @@ import BodySection from './BodySection';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
-  marginbotttom: {
+  marginbottom: {
     marginBottom: '40px',
   }
 })
@@ -21,7 +21,6 @@ class BodySectionWithMarginBottom extends Component {
   }
 }
 
-// Defining propTypes for props
 BodySectionWithMarginBottom.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
