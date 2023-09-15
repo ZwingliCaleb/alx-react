@@ -1,7 +1,6 @@
 import React from 'react';
 import Login from './Login';
 import { shallow } from 'enzyme';
-import '../../config/setupTests'
 
 describe('<Login />', () => {
     it('renders without crashing', () => {
@@ -10,13 +9,34 @@ describe('<Login />', () => {
 
     it('renders 2 input tags', () => {
         const wrapper = shallow(<Login />);
-        const inputTag = wrapper.find('input');
-        expect(inputTag).toHaveLength(2);
+        const inputTags = wrapper.find('input');
+        expect(inputTags).toHaveLength(2);
     });
 
     it('renders 2 label tags', () => {
         const wrapper = shallow(<Login />);
-        const labelTag = wrapper.find('label');
-        expect(labelTag).toHaveLength(2);
+        const labelTags = wrapper.find('label');
+        expect(labelTags).toHaveLength(2);
     });
-})
+
+    it('disables the submit button by default', () => {
+        const wrapper = shallow(<Login />);
+        const submitButton = wrapper.find('input[type="submit"]');
+        expect(submitButton.prop('disabled')).toBeTruthy();
+    });
+
+    it('enables the submit button after changing input values', () => {
+        const wrapper = shallow(<Login />);
+        // Simulate changing the email input value
+        wrapper.find('input#email').simulate('change', {
+            target: { name: 'email', value: 'test@example.com' },
+        });
+        // Simulate changing the password input value
+        wrapper.find('input#password').simulate('change', {
+            target: { name: 'password', value: 'password123' },
+        });
+        const submitButton = wrapper.find('input[type="submit"]');
+        expect(submitButton.prop('disabled')).toBeFalsy();
+    });
+
+});
