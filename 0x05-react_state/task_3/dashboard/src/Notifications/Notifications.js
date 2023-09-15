@@ -67,19 +67,6 @@ const styles = StyleSheet.create({
 });
 
 class Notifications extends Component {
-  constructor(props) {
-    super(props);
-    this.markAsRead = this.markAsRead.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.displayDrawer !== this.props.displayDrawer || nextProps.listNotifications.length > this.props.listNotifications.length;
-  }
-
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
-  }
-
   render() {
     return (
       <>
@@ -111,7 +98,7 @@ class Notifications extends Component {
                         type={notification.type}
                         value={notification.value}
                         html={notification.html}
-                        markAsRead={this.markAsRead}
+                        markAsRead={this.props.markNotificationAsRead}
                         id={notification.id}
                       />
                     ))}
@@ -133,6 +120,7 @@ class Notifications extends Component {
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  markNotificationAsRead: PropTypes.func.isRequired, // Define the prop type for markNotificationAsRead
 };
 
 Notifications.defaultProps = {

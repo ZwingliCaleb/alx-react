@@ -9,17 +9,17 @@ describe('<Notifications />', () => {
     });
 
     it('renders menuItem class when displayDrawer is false', () => {
-        const component = shallow(<Notifications displayDrawer={false}/>);
+        const component = shallow(<Notifications displayDrawer={false} />);
         const menu = component.find('div.menuItem');
 
         expect(menu.exists()).toBe(true);
     });
 
-    it('renders notifications class when displayDrawer is true', () => {
-        const component = shallow(<Notifications displayDrawer={true}/>);
-        const mainNoti = component.find('div.Notifications');
+    it('renders flexitem class when displayDrawer is true', () => {
+        const component = shallow(<Notifications displayDrawer={true} />);
+        const flexItem = component.find('div.flexitem');
 
-        expect(mainNoti.exists()).toBe(true);
+        expect(flexItem.exists()).toBe(true);
     });
 
     it('renders "No new notification for now" when listNotifications is empty', () => {
@@ -31,13 +31,13 @@ describe('<Notifications />', () => {
 
     it('renders notification list when listNotifications is provided', () => {
         const listNotifications = [
-          { id: 1, type: 'default', value: 'New course available', html: null },
-          { id: 2, type: 'urgent', value: 'New resume available', html: null },
+            { id: 1, type: 'default', value: 'New course available', html: null },
+            { id: 2, type: 'urgent', value: 'New resume available', html: null },
         ];
-    
+
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
         const notificationItems = wrapper.find(NotificationItem);
-    
+
         expect(notificationItems).toHaveLength(listNotifications.length);
         expect(wrapper.text()).toContain('Here is the list of notifications');
         expect(wrapper.text()).not.toContain('No new notification for now');
@@ -45,8 +45,8 @@ describe('<Notifications />', () => {
 
     it('does not rerender when updating with the same list', () => {
         const listNotifications = [
-          { id: 1, type: 'default', value: 'New course available', html: null },
-          { id: 2, type: 'urgent', value: 'New resume available', html: null },
+            { id: 1, type: 'default', value: 'New course available', html: null },
+            { id: 2, type: 'urgent', value: 'New resume available', html: null },
         ];
 
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
@@ -61,12 +61,12 @@ describe('<Notifications />', () => {
 
     it('rerenders when updating with a longer list', () => {
         const listNotifications1 = [
-          { id: 1, type: 'default', value: 'New course available', html: null },
+            { id: 1, type: 'default', value: 'New course available', html: null },
         ];
 
         const listNotifications2 = [
-          { id: 1, type: 'default', value: 'New course available', html: null },
-          { id: 2, type: 'urgent', value: 'New resume available', html: null },
+            { id: 1, type: 'default', value: 'New course available', html: null },
+            { id: 2, type: 'urgent', value: 'New resume available', html: null },
         ];
 
         const wrapper = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications1} />);
