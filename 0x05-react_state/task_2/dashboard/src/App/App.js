@@ -9,7 +9,7 @@ import { getLatestNotification } from '../utils/utils';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import BodySection from '../BodySection/BodySection';
 import { StyleSheet, css } from 'aphrodite';
-import AppContext from './AppContext';
+import { defaultUser } from './AppContext'; // Import the default user
 
 const styles = StyleSheet.create({
   headerStyling: {
@@ -25,10 +25,7 @@ class App extends Component {
     super(props);
     this.state = {
       displayDrawer: false,
-      user: {
-        email: '',
-        password: '',
-      },
+      user: defaultUser, // Use the default user object
     };
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.logIn = this.logIn.bind(this);
@@ -86,10 +83,7 @@ class App extends Component {
 
   logOut() {
     this.setState({
-      user: {
-        email: '',
-        password: '',
-      },
+      user: defaultUser, // Reset to the default user object
     });
   }
 
@@ -97,39 +91,33 @@ class App extends Component {
     const { user } = this.state;
 
     return (
-      <AppContext.Provider value={{ user, logOut: this.logOut }}>
-        <div className={css(styles.headerStyling)}>
-          <Notifications
-            displayDrawer={this.state.displayDrawer}
-            handleDisplayDrawer={() => this.handleDisplayDrawer()}
-            handleHideDrawer={() => this.handleHideDrawer()}
-            listNotifications={this.listNotifications}
-          />
-          <div className="App">
-            <Header />
-            {user.email && user.password ? (
-              <BodySectionWithMarginBottom title="Course list">
-                <CourseList listCourses={this.listCourses} />
-              </BodySectionWithMarginBottom>
-            ) : (
-              <BodySectionWithMarginBottom title="Log in to continue">
-                <Login logIn={this.logIn} />
-              </BodySectionWithMarginBottom>
-            )}
-            <Footer />
-            <BodySection title="News from School">
-              <p>random text about school news.</p>
-            </BodySection>
-          </div>
+      <div className={css(styles.headerStyling)}>
+        <Notifications
+          displayDrawer={this.state.displayDrawer}
+          handleDisplayDrawer={() => this.handleDisplayDrawer()}
+          handleHideDrawer={() => this.handleHideDrawer()}
+          listNotifications={this.listNotifications}
+        />
+        <div className="App">
+          <Header />
+          {user.email && user.password ? (
+            <BodySectionWithMarginBottom title="Course list">
+              <CourseList listCourses={this.listCourses} />
+            </BodySectionWithMarginBottom>
+          ) : (
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login logIn={this.logIn} />
+            </BodySectionWithMarginBottom>
+          )}
+          <Footer />
+          <BodySection title="News from School">
+            <p>random text about school news.</p>
+          </BodySection>
         </div>
-      </AppContext.Provider>
+      </div>
     );
   }
 }
-
-App.defaultProps = {
-  logOut: () => {},
-};
 
 App.propTypes = {
   logOut: PropTypes.func,
