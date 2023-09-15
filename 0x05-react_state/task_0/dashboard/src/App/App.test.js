@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from './App';
 import '../../config/setupTests';
 import Notifications from '../Notifications/Notifications';
@@ -16,7 +16,7 @@ const listNotifications = [
 
 describe('App tests', () => {
   it('renders without crashing', () => {
-      shallow(<App />)
+    shallow(<App />)
   });
 
   it('renders the notification component', () => {
@@ -33,7 +33,7 @@ describe('App tests', () => {
     const component = shallow(<App />);
     expect(component.contains(<Login />)).toBe(true);
   });
-  
+
   it('renders the Footer component', () => {
     const component = shallow(<App />);
     expect(component.contains(<Footer />)).toBe(true);
@@ -45,7 +45,7 @@ describe('App tests', () => {
     expect(component.contains(<Login />)).toBe(true);
   });
 
-  it('does not render Login when isloggedin is true', () => {
+  it('does not render Login when isLoggedIn is true', () => {
     const component = shallow(<App isLoggedIn={true}/>);
     expect(component.contains(<Login />)).toBe(false);
     expect(component.contains(<CourseList />)).toBe(true);
@@ -53,11 +53,11 @@ describe('App tests', () => {
 
   it('verifies that when control + h are pressed the logOut function is called and shows the alert Logging you out', () => {
     const logOutMock = jest.fn();
-    const alertMock = jest.spyOn(window, 'alert').mockImplemention(() => {});
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     const wrapper = mount(<App logOut={logOutMock} />);
     const event = new KeyboardEvent('keydown', {
-        key: 'h', ctrlKey: true,
+      key: 'h', ctrlKey: true,
     });
 
     document.dispatchEvent(event);
@@ -89,5 +89,22 @@ describe('App tests', () => {
     alertMock.mockRestore();
     jest.clearAllMocks();
   });
-  
+
+  it('verifies that the default state for displayDrawer is false', () => {
+    const component = shallow(<App />);
+    expect(component.state('displayDrawer')).toBe(false);
+  });
+
+  it('verifies that after calling handleDisplayDrawer, the state should now be true', () => {
+    const component = shallow(<App />);
+    component.instance().handleDisplayDrawer();
+    expect(component.state('displayDrawer')).toBe(true);
+  });
+
+  it('verifies that after calling handleHideDrawer, the state is updated to be false', () => {
+    const component = shallow(<App />);
+    component.setState({ displayDrawer: true }); // Set initial state to true
+    component.instance().handleHideDrawer();
+    expect(component.state('displayDrawer')).toBe(false);
+  });
 });
