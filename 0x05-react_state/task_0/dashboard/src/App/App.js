@@ -15,13 +15,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     display: 'flex',
     justifyContent: 'space-between',
-    borderBottom: '2px solid rgb(217, 37, 37)'
-  }
+    borderBottom: '2px solid rgb(217, 37, 37)',
+  },
 });
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      displayDrawer: false, // Default state for displayDrawer
+    };
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
@@ -42,6 +45,16 @@ class App extends Component {
     },
   ];
 
+  // Function to handle displaying the drawer
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+  }
+
+  // Function to handle hiding the drawer
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
+  }
+
   handleKeyDown(e) {
     if (e.ctrlKey && e.key === 'h') {
       alert('Logging you out');
@@ -59,8 +72,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className = {css(styles.headerStyling)}>
-        <Notifications displayDrawer={true} listNotifications={this.listNotifications} />
+      <div className={css(styles.headerStyling)}>
+        {/* Pass displayDrawer and the handle functions as props */}
+        <Notifications
+          displayDrawer={this.state.displayDrawer}
+          handleDisplayDrawer={() => this.handleDisplayDrawer()}
+          handleHideDrawer={() => this.handleHideDrawer()}
+          listNotifications={this.listNotifications}
+        />
         <div className="App">
           <Header />
           {this.props.isLoggedIn ? (
