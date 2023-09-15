@@ -130,4 +130,24 @@ describe('App tests', () => {
       password: '',
     });
   });
+
+  it('verifies that markNotificationAsRead updates the state correctly', () => {
+    // Initialize the component with some initial notifications
+    const initialNotifications = [
+      { id: 1, type: 'default', value: 'Notification 1', html: null },
+      { id: 2, type: 'urgent', value: 'Notification 2', html: null },
+    ];
+
+    const notificationIdToMarkAsRead = 1;
+
+    component.setState({ listNotifications: initialNotifications });
+
+    // Call markNotificationAsRead with an ID
+    component.instance().markNotificationAsRead(notificationIdToMarkAsRead);
+
+    // Check if the state has been updated correctly
+    expect(component.state('listNotifications')).toEqual([
+      { id: 2, type: 'urgent', value: 'Notification 2', html: null },
+    ]);
+  });
 });
