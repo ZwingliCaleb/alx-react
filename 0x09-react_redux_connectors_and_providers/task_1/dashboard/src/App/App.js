@@ -10,6 +10,7 @@ import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext, { user } from './AppContext';
+import { displayNotificationDrawer, hideNotificationDrawer } from './yourActions'; // Update with your action creators import path
 
 const styles = StyleSheet.create({
   headerStyling: {
@@ -18,10 +19,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottom: '2px solid rgb(217, 37, 37)',
 
-    '@media (max-width: 900px)': {
-      display: 'block',
-    },
-  },
+    "@media (max-width: 900px)": {
+      display: "block",
+    }
+  }
 });
 
 class App extends Component {
@@ -39,8 +40,7 @@ class App extends Component {
       ],
     };
 
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
     this.logIn = this.logIn.bind(this);
     this.logOut = this.logOut.bind(this);
   }
@@ -59,16 +59,9 @@ class App extends Component {
   handleKeyDown(e) {
     if (e.ctrlKey && e.key === 'h') {
       alert('Logging you out');
+      this.props.hideNotificationDrawer();
       this.props.logOut();
     }
-  }
-
-  handleDisplayDrawer() {
-    this.props.toggleDrawerVisibility(true);
-  }
-
-  handleHideDrawer() {
-    this.props.toggleDrawerVisibility(false);
   }
 
   componentDidMount() {
@@ -100,7 +93,7 @@ class App extends Component {
   }
 
   render() {
-    const { isLoggedIn, displayDrawer } = this.props;
+    const { isLoggedIn, displayDrawer, displayNotificationDrawer } = this.props;
 
     return (
       <AppContext.Provider
@@ -112,11 +105,10 @@ class App extends Component {
         <>
           <div className={css(styles.headerStyling)}>
             <Notifications
-              markNotificationAsRead={this.markNotificationAsRead.bind(this)}
+              markNotificationAsRead={this.markNotificationAsRead}
               displayDrawer={displayDrawer}
               listNotifications={this.state.listNotifications}
-              handleDisplayDrawer={this.handleDisplayDrawer}
-              handleHideDrawer={this.handleHideDrawer}
+              handleDisplayDrawer={displayNotificationDrawer}
             />
             <Header />
           </div>
@@ -146,12 +138,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleDrawerVisibility: isVisible => {
-      dispatch({ type: 'TOGGLE_DRAWER_VISIBILITY', isVisible });
-    },
-  };
+const mapDispatchToProps = {
+  displayNotificationDrawer,
+  hideNotificationDrawer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
