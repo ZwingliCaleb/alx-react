@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import logo from '../assets/holberton-logo.jpg';
 import { StyleSheet, css } from 'aphrodite';
 import PropTypes from 'prop-types';
-import AppContext from '../App/AppContext';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import { logout } from '../path/to/your/logoutActionCreator';
+import { getNotifications } from '../selectors/notificationSelector.js';
 
 const styles = StyleSheet.create({
   appHeader: {
@@ -36,10 +39,8 @@ const styles = StyleSheet.create({
 });
 
 class Header extends Component {
-  static contextType = AppContext;
-
   render() {
-    const { user, logOut } = this.context;
+    const { user, logout } = this.props;
 
     return (
       <header className={css(styles.appHeader)}>
@@ -48,10 +49,7 @@ class Header extends Component {
         {user.email && user.password && (
           <section className={css(styles.welcomeSection)} id="logoutSection">
             <p className={css(styles.welcomeText)}>Welcome {user.email} </p>
-            <span
-              className={css(styles.logoutLink)}
-              onClick={() => logOut()}
-            >
+            <span className={css(styles.logoutLink)} onClick={logout}>
               (logout)
             </span>
           </section>
@@ -66,7 +64,20 @@ Header.propTypes = {
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
   }).isRequired,
-  logOut: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
-export default Header;
+// Create a selector to extract user data from the Redux state
+const selectUser = (state) => state.user;
+
+// Use createSelector from reselect if you have more complex selectors
+const getUser = createSelector([selectUser], (user) => user);
+
+const mapStateToProps = (state) => {
+  return {
+    user: getUser(state),
+    notifications: getNotifications(state),
+  };
+};
+
+export default connect(mapStateToProps, { logout })(Header);
