@@ -1,7 +1,8 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount} from 'enzyme';
+import { createStore } from 'redux';
+import rootReducer from '../../path/to/your/reducer'; // Import your root reducer
 import App from './App';
-import '../../config/setupTests';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -149,5 +150,33 @@ describe('App tests', () => {
     expect(component.state('listNotifications')).toEqual([
       { id: 2, type: 'urgent', value: 'Notification 2', html: null },
     ]);
+  });
+
+  describe('mapStateToProps', () => {
+    it('should map state to props correctly when user is logged in', () => {
+      const store = createStore(rootReducer, {
+        uiReducer: {
+          isUserLoggedIn: true, // Assuming 'isUserLoggedIn' is the correct key in your Redux store
+        },
+      });
+
+      const connectedComponent = shallow(<App store={store} />).dive();
+      const props = connectedComponent.props();
+
+      expect(props.isLoggedIn).toEqual(true);
+    });
+
+    it('should map state to props correctly when user is not logged in', () => {
+      const store = createStore(rootReducer, {
+        uiReducer: {
+          isUserLoggedIn: false, // Assuming 'isUserLoggedIn' is the correct key in your Redux store
+        },
+      });
+
+      const connectedComponent = shallow(<App store={store} />).dive();
+      const props = connectedComponent.props();
+
+      expect(props.isLoggedIn).toEqual(false);
+    });
   });
 });
