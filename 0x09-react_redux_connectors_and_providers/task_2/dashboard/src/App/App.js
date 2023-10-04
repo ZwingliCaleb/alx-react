@@ -13,6 +13,7 @@ import AppContext from './AppContext';
 import {
   displayNotificationDrawer,
   hideNotificationDrawer,
+  loginRequest,
 } from './actions/uiActionCreators';
 
 const styles = StyleSheet.create({
@@ -46,8 +47,7 @@ class App extends Component {
   };
 
   render() {
-    const { isLoggedIn, displayNotificationDrawer, hideNotificationDrawer } =
-      this.props;
+    const { isLoggedIn, displayNotificationDrawer, hideNotificationDrawer, login } = this.props; // Destructure login from props
 
     return (
       <AppContext.Provider
@@ -73,7 +73,7 @@ class App extends Component {
             </BodySectionWithMarginBottom>
           ) : (
             <BodySectionWithMarginBottom title="Log in to continue">
-              <Login logIn={this.logIn} />
+              <Login logIn={login} />
             </BodySectionWithMarginBottom>
           )}
           <BodySection
@@ -95,6 +95,7 @@ App.propTypes = {
   displayNotificationDrawer: PropTypes.func.isRequired,
   hideNotificationDrawer: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired, // Add login prop validation
 };
 
 App.defaultProps = {
@@ -110,4 +111,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   displayNotificationDrawer,
   hideNotificationDrawer,
+  login: loginRequest, // Map loginRequest to login prop
 })(App);
