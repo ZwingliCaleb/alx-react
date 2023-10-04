@@ -6,9 +6,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  LOGIN_REQUEST,
 } from '../actions/uiActionTypes';
 
-// Define the initial state
 const initialState = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
@@ -53,6 +53,13 @@ describe('uiReducer', () => {
     const action = { type: LOGOUT };
     const newState = uiReducer(initialState, action);
     const expectedState = initialState.set('isUserLoggedIn', false);
+    expect(newState.toJS()).toEqual(expectedState.toJS());
+  });
+
+  it('should handle LOGIN_REQUEST', () => {
+    const action = { type: LOGIN_REQUEST };
+    const newState = uiReducer(initialState, action);
+    const expectedState = initialState.set('isUserLoggedIn', false); // Set according to your application logic
     expect(newState.toJS()).toEqual(expectedState.toJS());
   });
 

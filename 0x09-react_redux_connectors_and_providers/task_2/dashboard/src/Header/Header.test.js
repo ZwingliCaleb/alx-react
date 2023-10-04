@@ -1,9 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import { shallow } from 'enzyme';
-import { AppContext } from './App'; // Import the AppContext from your App component
 
-// Create a spy for the logOut function
 const logOutSpy = jest.fn();
 
 describe('<Header />', () => {
@@ -23,23 +21,19 @@ describe('<Header />', () => {
     expect(heading1.exists()).toBe(true);
   });
 
-  it('does not render logoutSection with default context value', () => {
+  it('does not render logoutSection with default props', () => {
     const wrapper = shallow(<Header />);
     const logoutSection = wrapper.find('#logoutSection');
     expect(logoutSection.exists()).toBe(false);
   });
 
-  it('renders logoutSection with user-defined context value', () => {
+  it('renders logoutSection with user-defined props', () => {
     const user = {
       email: 'test@example.com',
       password: 'testpassword',
     };
 
-    const wrapper = shallow(
-      <AppContext.Provider value={{ user, logOut: logOutSpy }}>
-        <Header />
-      </AppContext.Provider>
-    );
+    const wrapper = shallow(<Header user={user} logOut={logOutSpy} />);
 
     const logoutSection = wrapper.find('#logoutSection');
     expect(logoutSection.exists()).toBe(true);
@@ -51,11 +45,7 @@ describe('<Header />', () => {
       password: 'testpassword',
     };
 
-    const wrapper = shallow(
-      <AppContext.Provider value={{ user, logOut: logOutSpy }}>
-        <Header />
-      </AppContext.Provider>
-    );
+    const wrapper = shallow(<Header user={user} logOut={logOutSpy} />);
 
     const logoutLink = wrapper.find('.logoutLink');
     logoutLink.simulate('click');
