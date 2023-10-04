@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow, mount} from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { createStore } from 'redux';
+import { Map } from 'immutable'; // Import Map from Immutable.js
 import rootReducer from '../../path/to/your/reducer'; // Import your root reducer
 import App from './App';
 import Notifications from '../Notifications/Notifications';
@@ -10,8 +11,8 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 
 const listNotifications = [
-  { id: 1, type: 'default', value: 'New course available', html: null },
-  { id: 2, type: 'urgent', value: 'New resume available', html: null },
+  { id: 1, type: 'default', value: 'Notification 1', html: null },
+  { id: 2, type: 'urgent', value: 'Notification 2', html: null },
   { id: 3, type: 'urgent', value: null, html: { __html: 'Test HTML' } }
 ];
 
@@ -153,30 +154,26 @@ describe('App tests', () => {
   });
 
   describe('mapStateToProps', () => {
-    it('should map state to props correctly when user is logged in', () => {
-      const store = createStore(rootReducer, {
-        uiReducer: {
-          isUserLoggedIn: true, // Assuming 'isUserLoggedIn' is the correct key in your Redux store
-        },
-      });
-
-      const connectedComponent = shallow(<App store={store} />).dive();
-      const props = connectedComponent.props();
-
-      expect(props.isLoggedIn).toEqual(true);
+  it('should map state to props correctly when user is logged in', () => {
+    const store = createStore(rootReducer, {
+      uiReducer: Map({ isUserLoggedIn: true }), // Initialize state as an Immutable Map
     });
 
-    it('should map state to props correctly when user is not logged in', () => {
-      const store = createStore(rootReducer, {
-        uiReducer: {
-          isUserLoggedIn: false, // Assuming 'isUserLoggedIn' is the correct key in your Redux store
-        },
-      });
+    const connectedComponent = shallow(<App store={store} />).dive();
+    const props = connectedComponent.props();
 
-      const connectedComponent = shallow(<App store={store} />).dive();
-      const props = connectedComponent.props();
-
-      expect(props.isLoggedIn).toEqual(false);
-    });
+    expect(props.isLoggedIn).toEqual(true);
   });
+
+  it('should map state to props correctly when user is not logged in', () => {
+    const store = createStore(rootReducer, {
+      uiReducer: Map({ isUserLoggedIn: false }), // Initialize state as an Immutable Map
+    });
+
+    const connectedComponent = shallow(<App store={store} />).dive();
+    const props = connectedComponent.props();
+
+    expect(props.isLoggedIn).toEqual(false);
+  });
+});
 });
