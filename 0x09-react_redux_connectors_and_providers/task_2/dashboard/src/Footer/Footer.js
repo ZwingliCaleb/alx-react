@@ -1,18 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './Footer.css';
 import { getFullYear, getFooterCopy } from '../utils/utils';
-import AppContext from '../App/AppContext';
-
-function Footer() {
+// import AppContext from '../App/AppContext';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+function Footer({ user }) {
   const isIndex = true;
-  
-  // Use the useContext hook to access the UserContext
-  const { user } = useContext(AppContext);
 
   return (
     <footer className='App-footer'>
       <p>Copyright {getFullYear()} - {getFooterCopy(isIndex)}</p>
-      
+
       {user.loggedIn && (
         <p>
           <a href="/contact">Contact us</a>
@@ -22,4 +20,14 @@ function Footer() {
   );
 }
 
-export default Footer;
+Footer.propTypes = {
+  user: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.uiReducer,
+  };
+};
+
+export default connect(mapStateToProps)(Footer);
