@@ -12,8 +12,14 @@ export const getNotifications = createSelector(
   (notifications) => notifications.get('notifications')
 );
 
-export const getUnreadNotifications = createSelector(
-  [getNotifications],
-  (notifications) =>
-    notifications.filter((notification) => !notification.get('isRead'))
+export const getUnreadNotificationsByType = createSelector(
+  [filterTypeSelected, getNotifications],
+  (filter, notifications) => {
+    if (filter === 'URGENT') {
+      return notifications.filter(
+        (notification) => !notification.get('isRead') && notification.get('type') === 'urgent'
+      );
+    }
+    return notifications.filter((notification) => !notification.get('isRead'));
+  }
 );
