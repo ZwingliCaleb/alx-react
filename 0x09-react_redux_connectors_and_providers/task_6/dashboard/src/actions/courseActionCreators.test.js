@@ -1,22 +1,31 @@
-import { selectCourse, unSelectCourse } from './courseActionCreators';
-import { SELECT_COURSE, UNSELECT_COURSE } from './courseActionTypes';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { fetchCourses, SELECT_COURSE, UNSELECT_COURSE, FETCH_COURSE_SUCCESS } from './courseActionCreators';
+import { FETCH_COURSE_SUCCESS as FETCH_COURSE_SUCCESS_TYPE } from './courseActionTypes';
 
-test('selectCourse action creator returns the correct action', () => {
-  const index = 1;
-  const expectedAction = {
-    type: SELECT_COURSE,
-    index: index,
-  };
-  const action = selectCourse(index);
-  expect(action).toEqual(expectedAction);
-});
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
-test('unSelectCourse action creator returns the correct action', () => {
-  const index = 1;
-  const expectedAction = {
-    type: UNSELECT_COURSE,
-    index: index,
-  };
-  const action = unSelectCourse(index);
-  expect(action).toEqual(expectedAction);
+describe('async actions', () => {
+  it('creates FETCH_COURSE_SUCCESS when fetching courses has been done', () => {
+    const apiURL = '/api/courses';
+    const responseData = [{ id: 1, name: 'Course 1' }, { id: 2, name: 'Course 2' }];
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(responseData),
+      })
+    );
+
+    const expectedActions = [
+      { type: FETCH_COURSE_SUCCESS_TYPE, data: responseData },
+      { type: SELECT_COURSE, index: 1 },
+    ];
+
+    const store = mockStore({});
+
+    return store.dispatch(fetchCourses(apiURL)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
 });

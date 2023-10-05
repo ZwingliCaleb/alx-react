@@ -14,10 +14,28 @@ export const unselectCourse = (id) => {
   };
 };
 
-export const fetchCourseSuccess = (data) => {
+export const setCourses = (data) => {
   return {
     type: FETCH_COURSE_SUCCESS,
     data,
+  };
+};
+
+export const fetchCourses = () => {
+  return (dispatch) => {
+    return fetch('courses.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(setCourses(data)); // Dispatch setCourses action with the fetched data
+      })
+      .catch((error) => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
   };
 };
 
