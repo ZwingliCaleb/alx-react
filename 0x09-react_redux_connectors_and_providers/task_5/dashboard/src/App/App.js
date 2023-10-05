@@ -10,11 +10,7 @@ import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import { StyleSheet, css } from 'aphrodite';
 import AppContext from './AppContext';
-import {
-  displayNotificationDrawer,
-  hideNotificationDrawer,
-  loginRequest,
-} from './actions/uiActionCreators';
+import { displayNotificationDrawer, hideNotificationDrawer, loginRequest } from './actions/uiActionCreators';
 
 const styles = StyleSheet.create({
   headerStyling: {
@@ -59,9 +55,7 @@ class App extends Component {
         <>
           <div className={css(styles.headerStyling)}>
             <Notifications
-              markNotificationAsRead={this.markNotificationAsRead.bind(this)}
               displayDrawer={this.props.isNotificationDrawerVisible}
-              listNotifications={this.state.listNotifications}
               handleDisplayDrawer={displayNotificationDrawer}
               handleHideDrawer={hideNotificationDrawer}
             />
@@ -95,7 +89,7 @@ App.propTypes = {
   displayNotificationDrawer: PropTypes.func.isRequired,
   hideNotificationDrawer: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired, // Add login prop validation
+  login: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {
@@ -111,5 +105,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   displayNotificationDrawer,
   hideNotificationDrawer,
-  login: loginRequest, // Map loginRequest to login prop
+  login: loginRequest, 
 })(App);
