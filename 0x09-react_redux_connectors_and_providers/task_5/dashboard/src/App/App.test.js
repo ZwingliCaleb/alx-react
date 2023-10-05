@@ -9,17 +9,19 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 
 const mockStore = configureStore();
-const initialState = {
-  ui: {
-    isUserLoggedIn: false,
-  },
-};
 
 describe('App tests', () => {
   let store;
   let component;
 
   beforeEach(() => {
+    const initialState = {
+      uiReducer: {
+        isLoggedIn: false,
+        isNotificationDrawerVisible: false,
+      },
+    };
+
     store = mockStore(initialState);
     component = shallow(<App store={store} />).dive();
   });
@@ -29,7 +31,7 @@ describe('App tests', () => {
   });
 
   it('renders the notification component', () => {
-    expect(component.contains(<Notifications displayDrawer={true} listNotifications={[]} />)).toBe(true);
+    expect(component.contains(<Notifications />)).toBe(true);
   });
 
   it('renders the Header component', () => {
@@ -50,27 +52,31 @@ describe('App tests', () => {
   });
 
   it('does not render Login when isLoggedIn is true', () => {
-    store = mockStore({
-      ui: {
-        isUserLoggedIn: true,
+    const initialState = {
+      uiReducer: {
+        isLoggedIn: true,
+        isNotificationDrawerVisible: false,
       },
-    });
+    };
+
+    store = mockStore(initialState);
     component = shallow(<App store={store} />).dive();
+    
     expect(component.find(Login).exists()).toBe(false);
     expect(component.find(CourseList).exists()).toBe(true);
   });
 
-  it('verifies that the default state for displayDrawer is false', () => {
-    expect(component.props().displayDrawer).toBe(false);
+  it('verifies that the default state for isNotificationDrawerVisible is false', () => {
+    expect(component.props().isNotificationDrawerVisible).toBe(false);
   });
 
-  it('verifies that after calling handleDisplayDrawer, the state should now be true', () => {
-    component.props().handleDisplayDrawer();
-    expect(component.props().displayDrawer).toBe(true);
+  it('verifies that after calling handleDisplayDrawer, isNotificationDrawerVisible is true', () => {
+    component.props().displayNotificationDrawer();
+    expect(component.props().isNotificationDrawerVisible).toBe(true);
   });
 
-  it('verifies that after calling handleHideDrawer, the state is updated to be false', () => {
-    component.props().handleHideDrawer();
-    expect(component.props().displayDrawer).toBe(false);
+  it('verifies that after calling handleHideDrawer, isNotificationDrawerVisible is false', () => {
+    component.props().hideNotificationDrawer();
+    expect(component.props().isNotificationDrawerVisible).toBe(false);
   });
 });

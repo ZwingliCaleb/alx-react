@@ -1,13 +1,13 @@
 import notificationReducer from './notificationReducer';
 import { FETCH_NOTIFICATIONS_SUCCESS, MARK_AS_READ, SET_TYPE_FILTER } from '../actions/notificationActionTypes';
 import { notificationsNormalizer } from '../schema/notifications';
-
 import { Map } from 'immutable';
 
 describe('notificationReducer', () => {
   it('should return the initial state', () => {
     const initialState = Map({
       filter: 'DEFAULT',
+      loading: false, // New attribute: loading
       notifications: Map({}),
     });
 
@@ -37,6 +37,7 @@ describe('notificationReducer', () => {
 
     const expectedState = Map({
       filter: 'DEFAULT',
+      loading: false, // Set loading to false after fetching
       notifications: normalizedData.entities.notifications,
     });
 
@@ -46,6 +47,7 @@ describe('notificationReducer', () => {
   it('should handle MARK_AS_READ', () => {
     const initialState = Map({
       filter: 'DEFAULT',
+      loading: false,
       notifications: Map({
         1: {
           id: 1,
@@ -63,6 +65,7 @@ describe('notificationReducer', () => {
 
     const expectedState = Map({
       filter: 'DEFAULT',
+      loading: false,
       notifications: Map({
         1: {
           id: 1,
@@ -79,6 +82,7 @@ describe('notificationReducer', () => {
   it('should handle SET_TYPE_FILTER', () => {
     const initialState = Map({
       filter: 'DEFAULT',
+      loading: false,
       notifications: Map({}),
     });
 
@@ -89,6 +93,7 @@ describe('notificationReducer', () => {
 
     const expectedState = Map({
       filter: 'URGENT', // Check if filter is updated correctly
+      loading: false,
       notifications: Map({}),
     });
 
