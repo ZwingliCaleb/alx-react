@@ -49,4 +49,25 @@ describe('notificationSelector', () => {
 
     expect(getUnreadNotifications(state)).toEqual(expectedUnreadNotifications);
   });
+
+  it('getUnreadUrgentNotifications should select unread urgent notifications', () => {
+    const notifications = List([
+      Map({ id: 1, isRead: false, type: 'default', value: 'New course available' }),
+      Map({ id: 2, isRead: true, type: 'urgent', value: 'New resume available' }),
+      Map({ id: 3, isRead: false, type: 'urgent', value: 'New data available' }),
+    ]);
+
+    const state = {
+      notifications: Map({
+        filter: 'URGENT',
+        notifications: notifications,
+      }),
+    };
+
+    const expectedUnreadUrgentNotifications = List([
+      Map({ id: 3, isRead: false, type: 'urgent', value: 'New data available' }),
+    ]);
+
+    expect(getUnreadNotifications(state)).toEqual(expectedUnreadUrgentNotifications);
+  });
 });

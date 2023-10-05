@@ -119,4 +119,28 @@ describe('<Notifications />', () => {
         // Verify if markNotificationAsRead was called
         expect(markNotificationAsRead).toHaveBeenCalledWith(1);
     });
+
+    it('calls setNotificationFilter with URGENT when urgent button is clicked', () => {
+        const setNotificationFilter = jest.fn();
+        const wrapper = shallow(<Notifications displayDrawer={true} setNotificationFilter={setNotificationFilter} />);
+        const urgentButton = wrapper.find("button").at(0);
+
+        // Simulate click on the urgent button
+        urgentButton.simulate('click');
+
+        // Verify if setNotificationFilter was called with URGENT
+        expect(setNotificationFilter).toHaveBeenCalledWith('URGENT');
+    });
+
+    it('calls setNotificationFilter with DEFAULT when default button is clicked', () => {
+        const setNotificationFilter = jest.fn();
+        const wrapper = shallow(<Notifications displayDrawer={true} setNotificationFilter={setNotificationFilter} />);
+        const defaultButton = wrapper.find("button").at(1);
+
+        // Simulate click on the default button
+        defaultButton.simulate('click');
+
+        // Verify if setNotificationFilter was called with DEFAULT
+        expect(setNotificationFilter).toHaveBeenCalledWith('DEFAULT');
+    });
 });
