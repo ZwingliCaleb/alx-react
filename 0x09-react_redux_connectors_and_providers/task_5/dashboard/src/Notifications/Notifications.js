@@ -4,6 +4,8 @@ import NotificationItem from "./NotificationItem";
 import NotificationItemShape from './NotificationItemShape';
 import closeIcon from "../assets/close-icon.png";
 import { StyleSheet, css } from 'aphrodite';
+import { connect } from 'react-redux';
+import { fetchNotifications } from '../actions/notificationActionCreators';
 
 const opacityChange = {
   '0%': {
@@ -67,6 +69,10 @@ const styles = StyleSheet.create({
 });
 
 class Notifications extends Component {
+  componentDidMount() {
+    this.props.fetchNotifications();
+  }
+
   render() {
     return (
       <>
@@ -120,7 +126,8 @@ class Notifications extends Component {
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
   listNotifications: PropTypes.arrayOf(NotificationItemShape),
-  markNotificationAsRead: PropTypes.func.isRequired, // Define the prop type for markNotificationAsRead
+  markNotificationAsRead: PropTypes.func.isRequired,
+  fetchNotifications: PropTypes.func.isRequired,
 };
 
 Notifications.defaultProps = {
@@ -128,4 +135,10 @@ Notifications.defaultProps = {
   listNotifications: [],
 };
 
-export default Notifications;
+const mapStateToProps = (state) => {
+  return {
+    listNotifications: state.notifications.get('notifications'),
+  };
+};
+
+export default connect(mapStateToProps, { fetchNotifications })(Notifications);
